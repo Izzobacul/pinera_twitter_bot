@@ -18,6 +18,13 @@ def stupify(s):
 
     return(" ".join(ns))
 
+def remove_ats(s):
+    ns = []
+    for w in s.split(" "):
+        if w[0] != '@':
+            ns.append(w)
+    return(" ".join(ns))
+
 auth = json.loads(open('auth.json').read())
 
 api = twitter.Api(consumer_key=auth['consumer_key'],
@@ -33,6 +40,7 @@ def troll(victim):
 
     my_last = api.GetReplies()[0]
     my_last_text = my_last.full_text
+    my_last_text = remove_ats(my_last_text)
 
     stupified = stupify(victim_text)
 
